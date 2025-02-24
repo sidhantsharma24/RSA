@@ -13,6 +13,6 @@ struct rsa_mpz_key {
 
 void rsa_key_init(struct rsa_mpz_key *key);
 void rsa_clear_key(struct rsa_mpz_key *key);
-int rsa_keygen(struct rsa_mpz_key *key);
+int rsa_keygen(struct rsa_mpz_key *key, unsigned int bits);
 
 #endif // !RSA_H
