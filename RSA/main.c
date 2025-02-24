@@ -1,19 +1,16 @@
 #include <stdio.h>
 #include <mpir.h>
 #include "include/prime_gen.h"
+#include "include/rsa.h"
 #include <stdlib.h>
 #include <ctype.h>
 #include <string.h>
 #define EXIT_ERROR 1
 
 int main()
-{
-    mpz_t p, q;
-    mpz_init(p);
-    mpz_init(q);
-    
-    char input[32];
-    int key;
+{  
+    char input[16];
+    unsigned int bits;
 
     printf_s("Enter key size (bits): ");
 
@@ -33,31 +30,35 @@ int main()
         }
     }
 
-    key = atoi(input);
+    bits = atoi(input);
 
-    switch (key) {
+    switch (bits) {
     case 512:
     case 1024:
     case 2048:
     case 3072:
     case 4096:
-        if (generate_two_primes(p, q, key, 25) == 0)
-        {
-            fprintf(stderr, "Keygen failed.\n");
-        }
-        else {
-            gmp_printf("Prime p: %Zd\n", p);
-            gmp_printf("Prime q: %Zd\n", q);
-        }
         break;
     default:
         fprintf(stderr, "Invalid key size (must be 512, 1024, 2048, 3072, or 4096)\n");
         return EXIT_FAILURE;
     }
+   
+    struct rsa_mpz_key key;
+    rsa_key_init(&key);
+
+    if (rsa_keygen(&key, bits) != 0)
+    {
+        fprintf(stderr, "Keygen failed.\n");
+        rsa_clear_key(&key);
+        return EXIT_ERROR;
+    }
+
     
-
-    mpz_clear(p);
-    mpz_clear(q);
-
+    gmp_printf("Public Modulus n (%d bits): %Zd\n", bits, key.n);
+    gmp_printf("Public Exponent e: %Zd\n", key.e);
+    gmp_printf("Prime factor p: %Zd\n", key.p);
+    gmp_printf("prime factor q: %Zd\n", key.q);
+    gmp_printf("private key d: %Zd\n", key.d);
     return 0;
 }
