@@ -131,11 +131,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="prime_gen.c" />
     <ClCompile Include="main.c" />
+    <ClCompile Include="src\prime_gen.c" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="prime_gen.h" />
+    <ClInclude Include="include\prime_gen.h" />
+    <ClInclude Include="include\rsa.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
