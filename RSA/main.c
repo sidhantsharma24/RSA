@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <mpir.h>
-#include "prime_gen.h"
+#include "include/prime_gen.h"
 #include <stdlib.h>
 #include <ctype.h>
 #include <string.h>
