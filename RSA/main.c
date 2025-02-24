@@ -57,10 +57,6 @@ int main()
     
     gmp_printf("Public Modulus n (%d bits): %Zd\n", bits, key.n);
     gmp_printf("Public Exponent e: %Zd\n", key.e);
-    /*Following outputs only for testing and will be removed*/
-    gmp_printf("Prime factor p: %Zd\n", key.p);
-    gmp_printf("prime factor q: %Zd\n", key.q);
-    gmp_printf("private key d: %Zd\n", key.d);
 
     rsa_clear_key(&key);
     return 0;
