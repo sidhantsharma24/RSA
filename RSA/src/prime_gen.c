@@ -39,7 +39,7 @@ int generate_two_primes(mpz_t p, mpz_t q, unsigned int bits, unsigned int reps)
 		return EXIT_ERROR;
 	}
 
-	if (!generate_prime(q, bits, reps) != 0)
+	if (generate_prime(q, bits, reps) != 0)
 	{
 		return EXIT_ERROR;
 	}
