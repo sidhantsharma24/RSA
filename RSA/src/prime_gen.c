@@ -1,4 +1,4 @@
-#include "include/prime_gen.h"
+#include "../include/prime_gen.h"
 #include <openssl/bn.h>
 #include <openssl/rand.h>
 #define EXIT_ERROR 1
