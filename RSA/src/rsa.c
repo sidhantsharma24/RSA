@@ -54,5 +54,9 @@ int rsa_keygen(struct rsa_mpz_key* key, unsigned int bits)
 		return 1;
 	}
 
+	mpz_clear(phi_n);
+	mpz_clear(p_minus_1);
+	mpz_clear(q_minus_1);
+
 	return 0;
 }
