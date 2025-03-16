@@ -5,18 +5,40 @@
 #include <stdlib.h>
 #include <ctype.h>
 #include <string.h>
-#define EXIT_ERROR 1
+#include <sys/stat.h>
 
-int main()
+#ifdef _WIN32
+#include <direct.h>
+#define mkdir(dir, mode) _mkdir(dir)
+#endif
+
+#define EXIT_ERROR 1
+#define DEFAULT_OUTDIR "output"
+
+int main(int argc, char *argv[])
 {  
     char input[16];
     unsigned int bits;
+    const char *outdir = DEFAULT_OUTDIR; //place where keys will be stored
 
-    printf_s("Enter key size (bits): ");
+
+    for(int i = 1 ; i < argc ; i++)
+    {
+        if(strcmp(argv[i], "--outdir") == 0 && (i+1) < argc)
+        {
+            outdir = argv[i + 1];
+            i++;
+        } else {
+            printf("Usage: %s --outdir <directory>\n", argv[0]);
+            return EXIT_FAILURE;
+        }
+    }
+    
+    printf("Enter key size (bits): ");
 
     if (fgets(input, sizeof(input), stdin) == NULL)
     {
-        printf_s("Error getting key size");
+        printf("Error getting key size");
         exit(EXIT_FAILURE);
     }
     input[strcspn(input, "\n")] = '\0';
@@ -25,7 +47,7 @@ int main()
     {
         if (!isdigit(input[i]) && !(i == 0 && input[i] == '-'))
         {
-            printf_s("Invalid key size.\n");
+            printf("Invalid key size.\n");
             exit(EXIT_FAILURE); 
         }
     }
@@ -47,17 +69,37 @@ int main()
     struct rsa_mpz_key key;
     rsa_key_init(&key);
 
+    printf("[+] Generating %u-bit RSA keypair...\n", bits);
+
     if (rsa_keygen(&key, bits) != 0)
     {
         fprintf(stderr, "Keygen failed.\n");
         rsa_clear_key(&key);
         return EXIT_ERROR;
     }
-
     
-    gmp_printf("Public Modulus n (%d bits): %Zd\n", bits, key.n);
-    gmp_printf("Public Exponent e: %Zd\n", key.e);
+    char pub_path[256];
+    char priv_path[256];
+
+    mkdir(outdir, 0755);
+
+    snprintf(pub_path, sizeof(pub_path), "%s/public.pem", outdir);
+    snprintf(priv_path, sizeof(priv_path), "%s/private.pem", outdir);
+
+    printf("[+] Exporting keys...\n");
+    if(export_key_pem(&key, pub_path, priv_path) != 0)
+    {
+        fprintf(stderr, "[-] Failed to export keys.\n");
+        rsa_clear_key(&key);
+        return EXIT_ERROR;
+    }
+    
+   // gmp_printf("Public Modulus n (%d bits): %Zd\n", bits, key.n);
+   // gmp_printf("Public Exponent e: %Zd\n", key.e);
+      gmp_printf("[debug] \n\n n has %u bits\n", mpz_sizeinbase(key.n, 2));
 
     rsa_clear_key(&key);
+
+    printf("[+] RSA keypair generation complete. Keys are stored in '%s'.\n", outdir);
     return 0;
 }
