@@ -71,7 +71,7 @@ Keys will be exported in PEM format to the specified directory (or the default o
   openssl rsa -pubin -in output/public.pem -text -noout
   ```
 ## Author
-Sidhant Sharma ([Github](www.github.com/sidhantsharma24))
+Sidhant Sharma ([Github](https://github.com/sidhantsharma24))
 
 
 
