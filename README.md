@@ -1,5 +1,5 @@
 # RSA Key Generator (C + GMP + OpenSSL)
-
+Welcome to my first github project !
 A custom RSA key pair generator written in C, using GMP/MPIR for big integer math and OpenSSL for PEM export. Supports configurable key sizes, passphrase-protected private keys, and CRT optimizations for efficient decryption.
 
 ##  Features
@@ -70,7 +70,8 @@ Keys will be exported in PEM format to the specified directory (or the default o
   ```bash
   openssl rsa -pubin -in output/public.pem -text -noout
   ```
-
+## Author
+Sidhant Sharma ([Github](www.github.com/sidhantsharma24))
 
 
 
