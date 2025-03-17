@@ -28,17 +28,53 @@ Enter key size (bits): 2048
 ---
 
 ##  Installation & Build
-### Prerequisites 
+### Windows
+- Make sure you're Windows 10/11 64-bit x86_64 arch
+- Download and install MinGW-w64 and add the 'bin' folder to your system PATH
+- Usually MinGW also installs GNU Make along with it, if not, download [GNU Make For Windows](https://gnuwin32.sourceforge.net/downlinks/make.php)
+- Download [Git for Windows](https://github.com/git-for-windows/git/releases/download/v2.48.1.windows.1/Git-2.48.1-64-bit.exe) and make sure to check installing Git Bash
+- Clone and set up vcpkg
+  ```bash
+  git clone https://github.com/microsoft/vcpkg.git
+  cd vcpkg
+  .\bootstrap-vcpkg.bat
+  ```
+- Install the following dependencies using vcpkg
+  ```bash
+  vcpkg install mpir:x64-windows
+  vcpkg install openssl:x64-windows
+  vcpkg install gmp:x64-windows
+  ```
+- Integrate vcpkg globally
+  ```bash
+  vcpkg integrate install
+  ```
+- Clone the RSA repository
+  ```bash
+  git clone https://github.com/sidhantsharma24/RSA.git
+  ```
+#### Build the project
+- Use Git Bash for this step
+  ```bash
+  make windows VCPKG_DIR=/c/Users/YourUsername/vcpkg/installed/x64-windows
+  ```
+#### Run the program
+```bash
+cd build
+./rsa_program.exe
+```
+
+### Linux (debian) 
 - GCC (Linux) or MinGW (Windows)
 - GMP or MPIR library installed
 - OpenSSL development libraries installed
-#### For Linux debian
+#### You might need to build MPIR from source
+- [MPIR Library](https://github.com/wbhart/mpir)
+
+#### Additional packages
 ```bash
 sudo apt-get install libgmp-dev libssl-dev
 ```
-#### For Windows
-- Install MPIR and OpenSSL
-- Add their paths to your compiler
 
 ## Build project
 ```bash
