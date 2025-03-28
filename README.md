@@ -1,6 +1,7 @@
 # RSA Key Generator (C + GMP + OpenSSL)
 Welcome to my first github project !
-A custom RSA key pair generator written in C, using GMP/MPIR for big integer math and OpenSSL for PEM export. Supports configurable key sizes, passphrase-protected private keys, and CRT optimizations for efficient decryption.
+A custom RSA key pair generator written in C, using GMP/MPIR and OpenSSL.
+Now this might look like reinventing the wheel but the sole purpose of this project was for me to have an understanding and feel for combining encryption algorithms with C programming. This is just for learning purposes only and should not be used in production systems. By using this, you acknowledge that it may contain vulnerabilites and are doing it at your own risk.
 
 ##  Features
 
